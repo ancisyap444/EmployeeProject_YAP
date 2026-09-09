@@ -14,55 +14,70 @@ public class HourlyEmployee {
         this(empID, empName, 0.0f, 0.0);
     }
 
-    public HourlyEmployee(int empID, String empName, float totalHoursWorked, double ratePerHour){
+    public HourlyEmployee(int empID, String empName, float totalHoursWorked, double ratePerHour) {
         setEmpID(empID);
         setEmpName(empName);
         setTotalHoursWorked(totalHoursWorked);
         setRatePerHour(ratePerHour);
     }
 
-    public int getEmpID(){
+    public int getEmpID() {
         return empID;
     }
 
-    public void setEmpID(int empID){
-        this.empID = empID;
-    }
-    public String getEmpName(){
-        return empName;
-    }
-    public void setEmpName(String empName){
-        this.empName = (empName == null || empName.trim().isEmpty())? "N/A":empName;
+    public void setEmpID(int empID) {
+        if (empID >= 0) {
+            this.empID = empID;
+        }
     }
 
-    public float getTotalHoursWorked(){
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        if (empName != null && !empName.trim().isEmpty()) {
+            this.empName = empName;
+        }
+    }
+
+    public float getTotalHoursWorked() {
         return totalHoursWorked;
     }
 
-    public void setTotalHoursWorked(float totalHoursWorked){
-        if (totalHoursWorked < 0.0f){
-            system.out.println("Warning: Total hours worked cannot be negative Setting to 0.");
-            this.totalHoursWorked = 0.0f;
-        } else {
-            this.totalHoursWorked = totalHoursWorked
+    public void setTotalHoursWorked(float totalHoursWorked) {
+        if (totalHoursWorked >= 0) {
+            this.totalHoursWorked = totalHoursWorked;
         }
     }
-    public double getRatePerHour(){
+
+    public double getRatePerHour() {
         return ratePerHour;
     }
-    public void setRatePerHour(double ratePerHour){
-        if (ratePerHour < 0.0){
-            System.out.println("Warning: Rate per hour cannot be negative setting to 0.");
-            this.ratePerHour = 0.0;
-        } else {
-            this.ratePerHour =
-                    ratePerHour;
+
+    public void setRatePerHour(double ratePerHour) {
+        if (ratePerHour >= 0) {
+            this.ratePerHour = ratePerHour;
         }
     }
 
-    public double computeSalary(){
-        if(totalHoursWorked <=)
+    public double computeSalary() {
+        if (totalHoursWorked <= 40) {
+            return totalHoursWorked * ratePerHour;
+        }
+        double regularPay = 40 * ratePerHour;
+        double overtimePay = (totalHoursWorked - 40) * (ratePerHour * 1.5);
+        return regularPay + overtimePay;
+    }
+
+    public void displayHourlyEmployee() {
+        System.out.printf("ID: %d | Name: %s | Hours: %.2f | Rate: ₱%,.2f/hr%n",
+                empID, empName, totalHoursWorked, ratePerHour);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("HourlyEmployee [ID: %d, Name: %s, Hours: %.2f, Rate: ₱%,.2f, Total Salary: ₱%,.2f]",
+                empID, empName, totalHoursWorked, ratePerHour, computeSalary());
     }
 }
-
-
